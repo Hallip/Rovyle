@@ -7,26 +7,56 @@
     <script type="text/javascript" src="/eel.js"></script>
 
     <script>
+        var siids;
+
         async function run() {
             let n = await eel.wifiList()();
             siids = n
             var netChar = document.getElementById("nets")
             for (const siid in siids) {
+                var cont = document.createElement("DIV");
+                cont.id = siid
                 var node = document.createElement("H2");
-                node.addEventListener("mouseover", function (event) {
+                cont.addEventListener("mouseover", function (event) {
                     event.target.classList.add("hovered");
                 });
-                node.addEventListener("mouseout", function (event) {
+                cont.addEventListener("mouseout", function (event) {
                     event.target.classList.remove("hovered");
                 });
-                var textnode = document.createTextNode(siids[siid]);         // Create a text node
-                node.appendChild(textnode);                              // Append the text to <li>
-                netChar.appendChild(node);
+                cont.addEventListener("click", function (event) {
+                    removeClicked()
+                    event.target.classList.add("clicked");
+                });
+                console.log(siids);
+                var textnode = document.createTextNode(siids[siid].name);        
+                node.appendChild(textnode);         
+                cont.appendChild(node)   
+                var wifi = document.createElement("IMG");
+                intencity = parseInt((siids[siid].intencity).replace("%",""))
+                if (intencity > 75){
+                    wifi.setAttribute("src", "fullwifi.svg");
+                    wifi.setAttribute("height", "64");
+
+                } else if (intencity > 50){
+                    wifi.setAttribute("src", "midWifi.svg");
+                    wifi.setAttribute("height", "64");
+
+                } else {
+                    wifi.setAttribute("src", "lowWifi.svg");
+                    wifi.setAttribute("height", "64");
+                }                 
+                cont.appendChild(wifi)
+                cont.classList.add("line")
+                netChar.appendChild(cont);
             }
         }
-
-
         run();
+
+        function removeClicked(){
+            for (const key in siids) {
+                document.getElementById(key).classList.remove("clicked")
+            }
+        }
     </script>
 </head>
 
@@ -37,13 +67,13 @@
         </div>
         <div class="label">
             <div>
-                <h3>Contraseña: </h3>
+                <h3 style="margin: 0; padding: 0;">Contraseña: </h3>
             </div>
             <div>
                 <input type="password" name="" id="">
             </div>
             <button>
-                conectar
+                Conectar
             </button>
         </div>
     </div>
