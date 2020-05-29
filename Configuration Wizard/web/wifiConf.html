@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rovyle</title>
+    <link rel="stylesheet" type="text/css" href="styleWifi.css">
+    <script type="text/javascript" src="/eel.js"></script>
+
+    <script>
+        async function run() {
+            let n = await eel.wifiList()();
+            siids = n
+            var netChar = document.getElementById("nets")
+            for (const siid in siids) {
+                var node = document.createElement("H2");
+                node.addEventListener("mouseover", function (event) {
+                    event.target.classList.add("hovered");
+                });
+                node.addEventListener("mouseout", function (event) {
+                    event.target.classList.remove("hovered");
+                });
+                var textnode = document.createTextNode(siids[siid]);         // Create a text node
+                node.appendChild(textnode);                              // Append the text to <li>
+                netChar.appendChild(node);
+            }
+        }
+
+
+        run();
+    </script>
+</head>
+
+<body>
+    <div class="centered">
+        <div class="nets" id="nets">
+
+        </div>
+        <div class="label">
+            <div>
+                <h3>Contraseña: </h3>
+            </div>
+            <div>
+                <input type="password" name="" id="">
+            </div>
+            <button>
+                conectar
+            </button>
+        </div>
+    </div>
+</body>
+
+</html>
